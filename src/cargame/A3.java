@@ -248,7 +248,7 @@ class Car extends JComponent implements Runnable {
 		// when in reverse the car turns towards the direction of the steering
 		else if (this.speed < 0)
 			this.angle -= angle;
-		// car must be in motion to turn
+		// sudo loves to chase his tail.
 		else
 			this.angle += 5*angle;
 
