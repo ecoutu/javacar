@@ -458,6 +458,6 @@ public class A3 {
 	 * @param args No command line arguments accepted.
 	 */
 	public static void main (String args[]) {
-		new Game("images/car.png");
+		new Game("images/sudo.png");
 	}
 }
