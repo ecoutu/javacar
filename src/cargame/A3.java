@@ -40,6 +40,7 @@ class Car extends JComponent implements Runnable {
 	 * and positive relative values are counter-clockwise.
 	 */
 	private double angle;
+  private Treat treat = new Treat(5,5);
 
 	/**
 	 * Creates a new <code>Car</code> object, and starts the thread that
@@ -140,6 +141,10 @@ class Car extends JComponent implements Runnable {
 			this.x += deltaX;
 			this.y += deltaY;
 		}
+
+    if (Math.abs(this.x - treat.getX()) < 25 && Math.abs(this.y - treat.getY()) < 25){
+      System.out.println("treatClose");
+    }
 	}
 
 	/**
@@ -385,6 +390,23 @@ class Game implements Runnable, KeyListener {
 			e.printStackTrace();
 		}
 	}
+}
+
+class Treat{
+  private int x = 300;
+  private int y = 300;
+
+  public Treat(int x, int y){
+    this.x = x;
+    this.y = y;
+  }
+
+  public int getX(){
+    return this.x;
+  }
+  public int getY(){
+    return this.y;
+  }
 }
 
 /**
