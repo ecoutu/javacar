@@ -40,7 +40,7 @@ class Car extends JComponent implements Runnable {
 	 * and positive relative values are counter-clockwise.
 	 */
 	private double angle;
-  private Treat treat = new Treat(5,5);
+  	private Treat treat = new Treat(5,5);
 
 	/**
 	 * Creates a new <code>Car</code> object, and starts the thread that
@@ -83,7 +83,6 @@ class Car extends JComponent implements Runnable {
 	 * its current rotation and position.
 	 * @param g The <code>Graphics</code> object passed to the paint call.
 	 */
-
 	public void paint(Graphics g) {
 		int x = new Double(this.x).intValue();
 		int y = new Double(this.y).intValue();
@@ -142,9 +141,9 @@ class Car extends JComponent implements Runnable {
 			this.y += deltaY;
 		}
 
-    if (Math.abs(this.x - treat.getX()) < 25 && Math.abs(this.y - treat.getY()) < 25){
-      System.out.println("treatClose");
-    }
+    	if (Math.abs(this.x - treat.getX()) < 2 && Math.abs(this.y - treat.getY()) < 2) {
+      		System.out.println("close to treat!");
+    	}
 	}
 
 	/**
@@ -171,7 +170,7 @@ class Car extends JComponent implements Runnable {
 	 * @param duration The time in milliseconds that the rolling deacceleration should be applied for.
 	 */
 	private void rollingDeacceleration(double duration) {
-		double amount = this.deAcceleration * (duration / 10);
+		double amount = this.deAcceleration * (duration);
 		// can only the cause to slow and stop, not move backwards
 		if (Math.abs(this.speed) - amount < 0) {
 			this.setSpeed(0);
@@ -392,21 +391,21 @@ class Game implements Runnable, KeyListener {
 	}
 }
 
-class Treat{
-  private int x = 300;
-  private int y = 300;
+class Treat {
+	private int x = 300;
+	private int y = 300;
 
-  public Treat(int x, int y){
-    this.x = x;
-    this.y = y;
-  }
+	public Treat(int x, int y){
+	    this.x = x;
+	    this.y = y;
+	}
 
-  public int getX(){
-    return this.x;
-  }
-  public int getY(){
-    return this.y;
-  }
+	public int getX(){
+	    return this.x;
+	}
+	public int getY(){
+	    return this.y;
+	}
 }
 
 /**
