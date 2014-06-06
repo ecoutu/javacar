@@ -32,7 +32,7 @@ class Car extends JComponent implements Runnable {
 	private double speed;
 	private double maxSpeed;
 	// the factor of the acceleration that the brakes de-accelerate
-	private int brakeRate = 2; 
+	private int brakeRate = 10; 
 	private double acceleration;
 	// the rolling de-acceleration of a car in motion
 	private double deAcceleration; 
@@ -250,7 +250,7 @@ class Car extends JComponent implements Runnable {
 			this.angle -= angle;
 		// car must be in motion to turn
 		else
-			return;
+			this.angle += 5*angle;
 
 		// mod the new angle to 360 degrees
 		if (this.angle >= 360)
@@ -285,7 +285,7 @@ class Game implements Runnable, KeyListener {
 	public Game (String carIcon) {
 		Thread thread;
 		BufferedImage icon = null;
-		window = new GameInterface("3750 Assignment 3 - Car Driving!", this);
+		window = new GameInterface("3750 Assignment 3 - Sudo Walking!", this);
 		// create the icon object for the car
 		try {
 			URL url = getClass().getClassLoader().getResource(carIcon);
@@ -296,7 +296,7 @@ class Game implements Runnable, KeyListener {
 			System.exit(0);
 		}
 		
-		car = new Car(icon, 170, 200, 100, 100);
+		car = new Car(icon, 1000, 500, 100, 100);
 		window.add(car, BorderLayout.CENTER); // add the car to the GUI
 
 		thread = new Thread((Runnable)this);
@@ -366,9 +366,9 @@ class Game implements Runnable, KeyListener {
 			while (true) {
 				Thread.sleep(sleepTime);
 				if (this.leftActive)
-					this.car.turnVehicle(2);
+					this.car.turnVehicle(5);
 				if (this.rightActive)
-					this.car.turnVehicle(-2);
+					this.car.turnVehicle(-5);
 
 				if (this.spaceActive)
 					this.car.applyBrakes(sleepTime);
