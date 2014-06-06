@@ -32,7 +32,7 @@ class Car extends JComponent implements Runnable {
 	private double speed;
 	private double maxSpeed;
 	// the factor of the acceleration that the brakes de-accelerate
-	private int brakeRate = 2; 
+	private int brakeRate = 10; 
 	private double acceleration;
 	// the rolling de-acceleration of a car in motion
 	private double deAcceleration; 
@@ -40,6 +40,7 @@ class Car extends JComponent implements Runnable {
 	 * and positive relative values are counter-clockwise.
 	 */
 	private double angle;
+  	private Treat treat = new Treat(5,5);
 
 	/**
 	 * Creates a new <code>Car</code> object, and starts the thread that
@@ -82,7 +83,6 @@ class Car extends JComponent implements Runnable {
 	 * its current rotation and position.
 	 * @param g The <code>Graphics</code> object passed to the paint call.
 	 */
-
 	public void paint(Graphics g) {
 		int x = new Double(this.x).intValue();
 		int y = new Double(this.y).intValue();
@@ -140,6 +140,10 @@ class Car extends JComponent implements Runnable {
 			this.x += deltaX;
 			this.y += deltaY;
 		}
+
+    	if (Math.abs(this.x - treat.getX()) < 2 && Math.abs(this.y - treat.getY()) < 2) {
+      		System.out.println("close to treat!");
+    	}
 	}
 
 	/**
@@ -166,7 +170,7 @@ class Car extends JComponent implements Runnable {
 	 * @param duration The time in milliseconds that the rolling deacceleration should be applied for.
 	 */
 	private void rollingDeacceleration(double duration) {
-		double amount = this.deAcceleration * (duration / 10);
+		double amount = this.deAcceleration * (duration);
 		// can only the cause to slow and stop, not move backwards
 		if (Math.abs(this.speed) - amount < 0) {
 			this.setSpeed(0);
@@ -248,9 +252,9 @@ class Car extends JComponent implements Runnable {
 		// when in reverse the car turns towards the direction of the steering
 		else if (this.speed < 0)
 			this.angle -= angle;
-		// car must be in motion to turn
+		// sudo loves to chase his tail.
 		else
-			return;
+			this.angle += 5*angle;
 
 		// mod the new angle to 360 degrees
 		if (this.angle >= 360)
@@ -285,7 +289,7 @@ class Game implements Runnable, KeyListener {
 	public Game (String carIcon) {
 		Thread thread;
 		BufferedImage icon = null;
-		window = new GameInterface("3750 Assignment 3 - Car Driving!", this);
+		window = new GameInterface("3750 Assignment 3 - Sudo Walking!", this);
 		// create the icon object for the car
 		try {
 			URL url = getClass().getClassLoader().getResource(carIcon);
@@ -296,7 +300,7 @@ class Game implements Runnable, KeyListener {
 			System.exit(0);
 		}
 		
-		car = new Car(icon, 170, 200, 100, 100);
+		car = new Car(icon, 1000, 500, 100, 100);
 		window.add(car, BorderLayout.CENTER); // add the car to the GUI
 
 		thread = new Thread((Runnable)this);
@@ -366,9 +370,9 @@ class Game implements Runnable, KeyListener {
 			while (true) {
 				Thread.sleep(sleepTime);
 				if (this.leftActive)
-					this.car.turnVehicle(2);
+					this.car.turnVehicle(5);
 				if (this.rightActive)
-					this.car.turnVehicle(-2);
+					this.car.turnVehicle(-5);
 
 				if (this.spaceActive)
 					this.car.applyBrakes(sleepTime);
@@ -384,6 +388,23 @@ class Game implements Runnable, KeyListener {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+}
+
+class Treat {
+	private int x = 300;
+	private int y = 300;
+
+	public Treat(int x, int y){
+	    this.x = x;
+	    this.y = y;
+	}
+
+	public int getX(){
+	    return this.x;
+	}
+	public int getY(){
+	    return this.y;
 	}
 }
 
@@ -458,6 +479,6 @@ public class A3 {
 	 * @param args No command line arguments accepted.
 	 */
 	public static void main (String args[]) {
-		new Game("images/car.png");
+		new Game("images/sudo.png");
 	}
 }
